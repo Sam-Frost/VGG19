@@ -98,7 +98,7 @@ try:
     print("[INFO] Image loading completed")  
 except Exception as e:
     print(f"Error : {e}")
-
+    
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 # create generator
 datagen = ImageDataGenerator()
@@ -163,22 +163,10 @@ model.fit(x_train, y_train, epochs=20, batch_size=32, verbose=1)
 loss, accuracy = model.evaluate(x_test,y_test)
 y_pred = model.predict(x_test)
 y_pred_classes = (y_pred > 0.5).astype(int)
- 
-print(y_pred)
-print(y_pred_classes)
-model.save('models/model.h5')
-
-def load_model():
-    model_names = 'model.h5'
-#     filename = os.path.join('models', model_name)
-    filename = '/kaggle/input/modelss/model.h5'
-    model = tensorflow.keras.models.load_model(filename)
-    print('loaded:', filename)
-    return model
-
-model = load_model()
-predd = model.predict(x_test)
-print(predd)
+y_pred_classes = [np.argmax(element) for element in y_pred]
+y_pred_classes = to_categorical(y_pred_classes)
+f1score = f1_score(y_test, y_pred_classes, average='weighted')
+print("Classification Report: \n", classification_report(y_test, y_pred_classes))
 
 
-    
+
