@@ -167,6 +167,6 @@ y_pred_classes = [np.argmax(element) for element in y_pred]
 y_pred_classes = to_categorical(y_pred_classes)
 f1score = f1_score(y_test, y_pred_classes, average='weighted')
 print("Classification Report: \n", classification_report(y_test, y_pred_classes))
-
+model.save('/kaggle/working/vgg19_model.h5')
 
 
